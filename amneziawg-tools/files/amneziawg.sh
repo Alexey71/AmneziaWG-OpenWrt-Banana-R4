@@ -2,8 +2,6 @@
 # Copyright 2016-2017 Dan Luedtke <mail@danrl.com>
 # Licensed to the public under the Apache License 2.0.
 
-# shellcheck disable=SC1091,SC3003,SC3043
-
 AWG=/usr/bin/awg
 if [ ! -x $AWG ]; then
 	logger -t "amneziawg" "error: missing amneziawg-tools (${AWG})"
@@ -30,9 +28,7 @@ proto_amneziawg_init_config() {
 	proto_config_add_int "awg_h2"
 	proto_config_add_int "awg_h3"
 	proto_config_add_int "awg_h4"
-# shellcheck disable=SC2034
 	available=1
-# shellcheck disable=SC2034
 	no_proto_task=1
 }
 
@@ -201,7 +197,7 @@ proto_amneziawg_setup() {
 
 	if proto_amneziawg_is_kernel_mode; then
 		logger -t "amneziawg" "info: using kernel-space kmod-amneziawg for ${AWG}"
-  	ip link del dev "${config}" 2>/dev/null
+		ip link del dev "${config}" 2>/dev/null
 		ip link add dev "${config}" type amneziawg
 	else
 		logger -t "amneziawg" "info: using user-space amneziawg-go for ${AWG}"
@@ -291,7 +287,6 @@ proto_amneziawg_setup() {
 
 	# endpoint dependency
 	if [ "${nohostroute}" != "1" ]; then
-		# shellcheck disable=SC2034
 		${AWG} show "${config}" endpoints | \
 		sed -E 's/\[?([0-9.:a-f]+)\]?:([0-9]+)/\1 \2/' | \
 		while IFS=$'\t ' read -r key address port; do
